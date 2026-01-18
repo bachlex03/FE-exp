@@ -21,4 +21,9 @@
 **How it work?**: 
 - en: It operates on three core principles: a single source of truth (the Store), state is read-only and can only be changed by emitting an Action (a plain object), and state transformations are handled by pure functions called Reducers.
 - vi: Nó hoạt động trên ba nguyên tắc cơ bản: một nguồn duy nhất của sự thật (Store), trạng thái chỉ đọc và chỉ có thể thay đổi thông qua việc phát ra một Action (một đối tượng đơn giản), và các thay đổi trạng thái được xử lý bởi các hàm thuần túy gọi là Reducers.
+### Next.js & Redux Composition
 
+**Does wrapping the app in a Client Component Provider make everything a Client Component?**:
+
+- en: No. In Next.js, "children" passed to a Client Component from a Server Component remain Server Components. This "Wrapper Pattern" allows you to maintain Server Component benefits (like SEO and performance) while still providing client-side context like Redux.
+- vi: Không. Trong Next.js, các "children" được truyền vào một Client Component từ một Server Component vẫn giữ nguyên là Server Components. "Wrapper Pattern" này cho phép bạn duy trì các lợi ích của Server Component (như SEO và hiệu suất) trong khi vẫn cung cấp context phía client như Redux.
