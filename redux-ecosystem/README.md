@@ -6,6 +6,7 @@ This is a comprehensive playground for exploring and testing various state manag
 This project is designed to experiment with and demonstrate the usage of:
 - **Redux** & **Redux Toolkit (RTK)**
 - **Redux Thunk** & **Redux Saga**
+- **Redux Persist**
 - **RTK Query**
 - **React Query** (TanStack Query)
 
@@ -41,4 +42,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [ ] Advanced side-effects with Redux Saga
 - [ ] Data fetching with RTK Query
 - [ ] Data fetching with TanStack Query
+- [ ] Persistence with Redux Persist
 - [ ] Comparative analysis and patterns for each tool
