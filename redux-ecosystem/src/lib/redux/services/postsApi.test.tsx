@@ -9,9 +9,7 @@ import React from 'react';
 
 // 1. Setup Mock Service Worker (MSW)
 const handlers = [
-    http.get('https://jsonplaceholder.typicode.com/posts', ({ request }) => {
-        const url = new URL(request.url);
-        const limit = url.searchParams.get('_limit');
+    http.get('https://jsonplaceholder.typicode.com/posts', () => {
 
         return HttpResponse.json([
             { id: 1, title: 'Mock Post 1', body: 'Body 1', userId: 1 },

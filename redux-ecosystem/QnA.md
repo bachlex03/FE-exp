@@ -220,6 +220,51 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - en: By default, RTK Query mutation/thunk promises always resolve, even on error. Chaining `.unwrap()` changes this: it returns the raw `data` on success and **throws** an error on failure. This allows you to use standard `try...catch` blocks for cleaner error handling and provides direct access to the payload.
 - vi: Theo mặc định, các promise từ mutation/thunk của RTK Query luôn resolve, ngay cả khi có lỗi. Việc sử dụng thêm `.unwrap()` sẽ thay đổi điều này: nó trả về dữ liệu (`data`) gốc khi thành công và **ném ra** (throw) lỗi khi thất bại. Điều này cho phép bạn sử dụng các khối `try...catch` tiêu chuẩn để xử lý lỗi gọn gàng hơn và truy cập trực tiếp vào payload.
 
+### React Query (TanStack Query)
+
+**What is the difference between RTK Query and React Query?**:
+
+- en: RTK Query is part of Redux Toolkit and stores data in the Redux store. React Query is a standalone library that stores data in its own internal cache. RTK Query is better if you already use Redux and want everything integrated; React Query is better if you want a lighter solution or need advanced features like infinite scrolling and window-focus refetching out of the box.
+- vi: RTK Query là một phần của Redux Toolkit và lưu trữ dữ liệu trong Redux store. React Query là một thư viện độc lập lưu trữ dữ liệu trong bộ nhớ đệm nội bộ riêng. RTK Query tốt hơn nếu bạn đã sử dụng Redux và muốn mọi thứ tích hợp; React Query tốt hơn nếu bạn muốn một giải pháp nhẹ hơn hoặc cần các tính năng nâng cao như cuộn vô hạn và tự động tải lại khi focus vào cửa sổ.
+
+**Is React Query "State Management"?**:
+
+- en: No, it is "Server State Management". Standard state management (like Redux) handles UI state like "is the sidebar open?". React Query handles "is this data from the server still valid?". It effectively replaces Redux for 80% of data-heavy applications.
+- vi: Không, nó là "Quản lý trạng thái Server". Quản lý trạng thái tiêu chuẩn (như Redux) xử lý các trạng thái UI như "sidebar có đang mở không?". React Query xử lý "dữ liệu từ server này còn hợp lệ không?". Nó thay thế Redux hiệu quả cho 80% các ứng dụng nặng về dữ liệu.
+
+**What is `ReactQueryDevtools` doing?**:
+
+- en: `ReactQueryDevtools` is a visualization tool for development. It provides a dashboard to monitor cache health (Fresh/Stale/Inactive), inspect the exact JSON data stored for each Query Key, and manually trigger refetches or invalidations. It solves the "Black Box" problem by making the internal state of your server cache visible.
+- vi: `ReactQueryDevtools` là một công cụ trực quan hóa cho quá trình phát triển. Nó cung cấp một dashboard để theo dõi sức khỏe của cache (Fresh/Stale/Inactive), kiểm tra chính xác dữ liệu JSON được lưu trữ cho mỗi Query Key, và kích hoạt thủ công việc tải lại hoặc vô hiệu hóa. Nó giải quyết vấn đề "Hộp đen" bằng cách làm cho trạng thái nội bộ của server cache trở nên rõ ràng.
+
+**What is `queryKey` and what does it do?**:
+
+- en: `queryKey` is the unique identifier for a query in the cache. It acts as a Cache ID (keeping different data separate), a Dependency Array (automatically re-fetching when any value in the key changes), and a Target for Invalidation (allowing you to mark specific data as "stale" after a mutation).
+- vi: `queryKey` là mã định danh duy nhất cho một query trong cache. Nó hoạt động như một Cache ID (giữ các tập dữ liệu khác nhau tách biệt), một Dependency Array (tự động fetch lại khi bất kỳ giá trị nào trong key thay đổi), và một Mục tiêu Vô hiệu hóa (cho phép bạn đánh dấu dữ liệu cụ thể là "lỗi thời" sau một mutation).
+
+
+<!-- ### Redux vs Zustand
+
+**What are they?**:
+- en: **Redux** is a mature, feature-rich state management library with a strict unidirectional data flow and a large ecosystem. **Zustand** is a small, fast, and scalable state management tool that provides a minimal, hooks-based API without the need for boilerplate like providers or complex setups.
+- vi: **Redux** là một thư viện quản lý trạng thái hoàn thiện, giàu tính năng với luồng dữ liệu một chiều nghiêm ngặt và hệ sinh thái lớn. **Zustand** là một công cụ quản lý trạng thái nhỏ, nhanh và có thể mở rộng, cung cấp API dựa trên hook tối giản mà không cần các mã lặp (boilerplate) như provider hay thiết lập phức tạp.
+
+**Why choose Zustand over Redux?**:
+- en: Zustand is much simpler to learn and implement. It requires zero boilerplate, performs optimally (by allowing fine-grained selectors), and feels more like "native React." It is ideal for small to medium projects where Redux's strictness is overkill.
+- vi: Zustand dễ học và triển khai hơn nhiều. Nó không yêu cầu mã lặp, đạt hiệu suất tối ưu (bằng cách cho phép các selector chi tiết) và mang lại cảm giác giống như "React thuần túy". Nó lý tưởng cho các dự án quy mô vừa và nhỏ, nơi sự khắt khe của Redux là không cần thiết.
+
+**How do they differ in structure?**:
+- en: Redux requires a central **Store**, **Actions**, and **Reducers** (even with RTK). Zustand uses a simple function to create a **Hook**, which contains both the state and the actions. You don't need a `<Provider />` to wrap your app in Zustand.
+- vi: Redux yêu cầu một **Store** trung tâm, **Actions**, và **Reducers** (ngay cả với RTK). Zustand sử dụng một hàm đơn giản để tạo ra một **Hook**, chứa cả trạng thái và các hành động. Bạn không cần một `<Provider />` để bao bọc ứng dụng trong Zustand.
+
+**When should you prefer Redux?**:
+- en: Redux is better for very large, complex enterprise applications with many internal state transitions, a need for powerful time-travel debugging, or when working in a large team where a strict, standardized architecture is necessary to maintain consistency.
+- vi: Redux tốt hơn cho các ứng dụng doanh nghiệp cực lớn, phức tạp với nhiều chuyển đổi trạng thái nội bộ, cần các tính năng gỡ lỗi time-travel mạnh mẽ, hoặc khi làm việc trong một nhóm lớn nơi một kiến trúc tiêu chuẩn hóa, nghiêm ngặt là cần thiết để duy trì tính nhất quán.
+
+**Which one is "Better"?**:
+- en: There is no "better"—only "better for the job." If you want speed and minimalism, go with Zustand. If you want a robust, battle-tested standard with advanced dev-tools and middleware, go with Redux Toolkit.
+- vi: Không có cái nào "tốt hơn"—chỉ có cái nào "phù hợp hơn cho công việc". Nếu bạn muốn tốc độ và sự tối giản, hãy chọn Zustand. Nếu bạn muốn một tiêu chuẩn mạnh mẽ, đã được thử thách qua thời gian với bộ công cụ phát triển và middleware nâng cao, hãy chọn Redux Toolkit. -->
+
 ### Web API & Security
 
 **What is the HTTP OPTIONS method (Preflight Request)?**:

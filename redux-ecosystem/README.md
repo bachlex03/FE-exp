@@ -1,4 +1,4 @@
-# Redux Ecosystem Playground
+# Redux Ecosystem Playground + React Query (TanStack Query)
 
 This is a comprehensive playground for exploring and testing various state management and data fetching libraries in the React/Next.js ecosystem.
 
