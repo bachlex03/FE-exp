@@ -203,6 +203,23 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - en: No. In Next.js, "children" passed to a Client Component from a Server Component remain Server Components. This "Wrapper Pattern" allows you to maintain Server Component benefits (like SEO and performance) while still providing client-side context like Redux.
 - vi: Không. Trong Next.js, các "children" được truyền vào một Client Component từ một Server Component vẫn giữ nguyên là Server Components. "Wrapper Pattern" này cho phép bạn duy trì các lợi ích của Server Component (như SEO và hiệu suất) trong khi vẫn cung cấp context phía client như Redux.
 
+### RTK Query
+
+**What is RTK Query?**:
+
+- en: RTK Query is an advanced data fetching and caching tool built on top of Redux Toolkit. It simplifies loading data from a server by automating the entire process: fetching, caching, synchronizing state, and providing hooks for UI components. It eliminates the need to write manual Thunks or Sagas for simple API calls.
+- vi: RTK Query là một công cụ tải dữ liệu và bộ nhớ đệm nâng cao được xây dựng dựa trên Redux Toolkit. Nó đơn giản hóa việc tải dữ liệu từ server bằng cách tự động hóa toàn bộ quy trình: tìm nạp, lưu bộ nhớ đệm, đồng bộ hóa state và cung cấp các hook cho các component UI. Nó loại bỏ nhu cầu viết Thunks hoặc Sagas thủ công cho các lệnh gọi API đơn giản.
+
+**What are "Tags" in RTK Query?**:
+
+- en: Tags are labels used by RTK Query's automated re-fetching system. Queries "provide" tags (like `Post` or `Post:LIST`), and mutations "invalidate" those same tags. When a mutation invalidates a tag, RTK Query automatically knows which queries are now "out of date" and re-fetches them to keep the UI in sync.
+- vi: Tags là các nhãn được sử dụng bởi hệ thống tự động tải lại của RTK Query. Các Query "cung cấp" (provide) các tag (như `Post` hoặc `Post:LIST`), và các Mutation "vô hiệu hóa" (invalidate) chính các tag đó. Khi một Mutation vô hiệu hóa một tag, RTK Query sẽ tự động biết query nào hiện đã "lỗi thời" và tải lại chúng để giữ cho UI đồng bộ.
+
+**What does the `.unwrap()` method do?**:
+
+- en: By default, RTK Query mutation/thunk promises always resolve, even on error. Chaining `.unwrap()` changes this: it returns the raw `data` on success and **throws** an error on failure. This allows you to use standard `try...catch` blocks for cleaner error handling and provides direct access to the payload.
+- vi: Theo mặc định, các promise từ mutation/thunk của RTK Query luôn resolve, ngay cả khi có lỗi. Việc sử dụng thêm `.unwrap()` sẽ thay đổi điều này: nó trả về dữ liệu (`data`) gốc khi thành công và **ném ra** (throw) lỗi khi thất bại. Điều này cho phép bạn sử dụng các khối `try...catch` tiêu chuẩn để xử lý lỗi gọn gàng hơn và truy cập trực tiếp vào payload.
+
 ### Web API & Security
 
 **What is the HTTP OPTIONS method (Preflight Request)?**:

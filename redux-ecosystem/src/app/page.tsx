@@ -37,6 +37,19 @@ export default function Home() {
               →
             </div>
           </Link>
+
+          <Link
+            href="/rtk-query"
+            className="group flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-black/20 border border-gray-100 dark:border-gray-800 hover:border-cyan-500 hover:shadow-lg transition-all"
+          >
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-cyan-500 transition-colors">RTK Query</span>
+              <span className="text-xs text-gray-500">Automated Caching & Fetching</span>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition-all">
+              →
+            </div>
+          </Link>
         </div>
       </main>
     </div>

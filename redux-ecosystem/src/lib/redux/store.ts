@@ -15,12 +15,14 @@ import counterReducer from './slices/counterSlice';
 import postsReducer from './slices/postsSlice';
 import userReducer from './slices/userSlice';
 import postsSagaReducer from './slices/postsSagaSlice';
+import { postsApi } from './services/postsApi';
 
 const rootReducer = combineReducers({
     counter: counterReducer,
     posts: postsReducer,
     user: userReducer,
     postsSaga: postsSagaReducer,
+    [postsApi.reducerPath]: postsApi.reducer,
 });
 
 const persistConfig = {
@@ -41,7 +43,7 @@ export const makeStore = () => {
                 serializableCheck: {
                     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
                 },
-            }).concat(sagaMiddleware),
+            }).concat(sagaMiddleware, postsApi.middleware),
     });
 
     sagaMiddleware.run(rootSaga);
