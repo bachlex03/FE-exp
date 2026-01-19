@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
@@ -16,16 +17,22 @@
     "react": "^18",
     "react-dom": "^18",
     "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.4.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.35",
+    "jsdom": "^27.4.0",
     "postcss": "^8",
     "tailwindcss": "^4.1.18",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.17"
   }
 }
