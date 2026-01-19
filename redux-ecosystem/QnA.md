@@ -178,6 +178,18 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - en: Vitest is faster, uses the same configuration as Vite/Next.js, and has native support for TypeScript and ESM. It avoids the "configuration hell" of Jest when dealing with modern tools like Tailwind or complex import aliases.
 - vi: Vitest nhanh hơn, sử dụng cùng một cấu hình với Vite/Next.js và hỗ trợ gốc cho TypeScript cũng như ESM. Nó tránh được "cơn ác mộng cấu hình" của Jest khi làm việc với các công cụ hiện đại như Tailwind hoặc các import alias phức tạp.
 
+### Next.js & Redux Persistence (SSR)
+
+**Why do we need a "No-op" storage in `storage.ts`?**:
+
+- en: Next.js runs code on the server before sending it to the browser. The `window` and `localStorage` objects do not exist on the server. The "No-op" storage provides dummy functions that do nothing on the server, preventing "window is not defined" errors during SSR or the build process. Once the app reaches the browser, it switches to real `localStorage`.
+- vi: Next.js chạy mã trên server trước khi gửi đến trình duyệt. Các đối tượng `window` và `localStorage` không tồn tại trên server. Bộ lưu trữ "No-op" cung cấp các hàm giả định không làm gì trên server, giúp ngăn lỗi "window is not defined" trong quá trình SSR hoặc build. Khi ứng dụng chạy trên trình duyệt, nó sẽ chuyển sang `localStorage` thật.
+
+**How does storage work between SSR and CSR? (Lớp lưu trữ hoạt động thế nào giữa SSR và CSR?)**:
+
+- en: During SSR, the `NoopStorage` is used, causing Redux to start with the default initial state. During Hydration (on the client), the code re-runs and switches to real `localStorage`. The `PersistGate` then blocks the UI until the saved state is loaded, ensuring the user sees the persisted data without a "flicker".
+- vi: Trong quá trình SSR, `NoopStorage` được sử dụng, khiến Redux bắt đầu với state khởi tạo mặc định. Trong quá trình Hydration (trên client), mã chạy lại và chuyển sang `localStorage` thật. Sau đó, `PersistGate` sẽ chặn UI cho đến khi state đã lưu được tải xong, đảm bảo người dùng thấy dữ liệu đã được lưu mà không bị hiện tượng "nhấp nháy".
+
 ### Next.js & Redux Composition
 
 **Does wrapping the app in a Client Component Provider make everything a Client Component?**:
