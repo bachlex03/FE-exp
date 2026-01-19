@@ -2,25 +2,86 @@
 
 import { useAppDispatch, useAppSelector } from '~/lib/redux/hooks';
 import { fetchUserRequest, clearUser } from '~/lib/redux/slices/userSlice';
+import {
+    fetchPostsRequest,
+    fetchPostByIdRequest,
+    createPostRequest,
+    updatePostRequest,
+    patchPostRequest,
+    deletePostRequest,
+    clearPostsSaga,
+    Post
+} from '~/lib/redux/slices/postsSagaSlice';
 import Link from 'next/link';
-import { User as UserIcon, ArrowLeft, Loader2, Search, Mail, Fingerprint, Globe, RefreshCcw } from 'lucide-react';
+import {
+    User as UserIcon,
+    ArrowLeft,
+    Loader2,
+    Search,
+    PlusCircle,
+    Edit,
+    Zap,
+    X,
+    Trash2,
+    Database,
+    Binary
+} from 'lucide-react';
+import { useState } from 'react';
 
 export default function ReduxSagaPage() {
-    const { data: user, loading, error } = useAppSelector((state) => state.user);
-    const dispatch = useAppDispatch();
+    // User State (Existing)
+    const { data: user, loading: userLoading } = useAppSelector((state) => state.user);
+    // Posts Saga State (New)
+    const { items: posts, loading: postsLoading } = useAppSelector((state) => state.postsSaga);
 
+    const dispatch = useAppDispatch();
+    const [lastSagaAction, setLastSagaAction] = useState<string | null>(null);
+
+    // Handlers
     const handleFetchUser = (id: number) => {
+        setLastSagaAction('USER_FETCH');
         dispatch(fetchUserRequest(id));
     };
 
-    const handleFetchRandom = () => {
-        const randomId = Math.floor(Math.random() * 10) + 1;
-        handleFetchUser(randomId);
+    const handleFetchPosts = () => {
+        setLastSagaAction('POSTS_FETCH_ALL');
+        dispatch(fetchPostsRequest());
+    };
+
+    const handleCreatePost = () => {
+        setLastSagaAction('POST_CREATE');
+        dispatch(createPostRequest({
+            title: 'Saga Post ' + Math.floor(Math.random() * 1000),
+            body: 'Created via Redux Saga Generator Worker.',
+            userId: 1
+        }));
+    };
+
+    const handleUpdatePost = (post: Post) => {
+        setLastSagaAction(`POST_PUT_${post.id}`);
+        dispatch(updatePostRequest({
+            ...post,
+            title: '[SAGA PUT] ' + post.title,
+            body: 'Updated via Saga call effect.'
+        }));
+    };
+
+    const handlePatchPost = (id: number) => {
+        setLastSagaAction(`POST_PATCH_${id}`);
+        dispatch(patchPostRequest({
+            id,
+            title: '[SAGA PATCH] ' + Math.floor(Math.random() * 100)
+        }));
+    };
+
+    const handleDeletePost = (id: number) => {
+        setLastSagaAction(`POST_DELETE_${id}`);
+        dispatch(deletePostRequest(id));
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex items-center justify-between mb-12">
+        <div className="max-w-5xl mx-auto p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
                 <div className="flex flex-col gap-2">
                     <Link
                         href="/"
@@ -28,139 +89,195 @@ export default function ReduxSagaPage() {
                     >
                         <ArrowLeft size={16} /> Back to dashboard
                     </Link>
-                    <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">
-                        Redux Saga
+                    <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 italic">
+                        Redux Saga <span className="text-rose-600">CRUD</span>
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400">
-                        Complex side-effect management using Generator Functions.
+                        Side-effect management using Generator Functions & Effects.
                     </p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                     <button
-                        onClick={handleFetchRandom}
-                        disabled={loading}
+                        onClick={handleFetchPosts}
+                        disabled={postsLoading}
                         className="flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-700 disabled:bg-rose-400 text-white rounded-lg font-medium transition-all active:scale-95 shadow-lg shadow-rose-500/20"
                     >
-                        {loading ? <Loader2 className="animate-spin" size={18} /> : <Search size={18} />}
-                        Fetch Random User
+                        {postsLoading && lastSagaAction === 'POSTS_FETCH_ALL' ? <Loader2 className="animate-spin" size={18} /> : <Database size={18} />}
+                        Fetch 5
+                    </button>
+                    <button
+                        onClick={() => {
+                            const id = Math.floor(Math.random() * 100) + 1;
+                            setLastSagaAction(`POST_FETCH_${id}`);
+                            dispatch(fetchPostByIdRequest(id));
+                        }}
+                        disabled={postsLoading}
+                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all active:scale-95 shadow-lg"
+                    >
+                        Fetch 1 Random
+                    </button>
+                    <button
+                        onClick={handleCreatePost}
+                        className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-all active:scale-95 shadow-lg shadow-emerald-500/20"
+                    >
+                        <PlusCircle size={18} /> Create (Saga)
+                    </button>
+                    <button
+                        onClick={() => {
+                            dispatch(clearPostsSaga());
+                            dispatch(clearUser());
+                            setLastSagaAction(null);
+                        }}
+                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all rounded-lg"
+                    >
+                        <Trash2 size={20} />
                     </button>
                 </div>
             </header>
 
-            {/* saga Status Visualization */}
-            <section className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-black/20 flex items-center gap-4">
-                    <div className={`p-4 rounded-xl ${loading ? 'bg-amber-100 text-amber-600 animate-pulse' : 'bg-rose-100 text-rose-600'}`}>
-                        <UserIcon size={24} />
+            {/* Saga Monitoring Dashboard */}
+            <section className="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-black/20 flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Effect Monitor</span>
+                        <Binary size={16} className="text-rose-500" />
                     </div>
-                    <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Current Worker</p>
-                        <p className="font-mono text-sm font-bold">{loading ? 'Working...' : 'Watching for Actions'}</p>
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500 italic">Latest Yield:</span>
+                            <span className="font-mono font-bold text-rose-500">{lastSagaAction || 'IDLE'}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-gray-500 italic">Thread Status:</span>
+                            <span className={`font-bold ${postsLoading || userLoading ? 'text-amber-500 animate-pulse' : 'text-emerald-500'}`}>
+                                {postsLoading || userLoading ? 'PROCESSING' : 'WATCHING'}
+                            </span>
+                        </div>
                     </div>
                 </div>
 
-                <div className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-black/20">
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Middleware Console</span>
-                        <button onClick={() => dispatch(clearUser())} className="text-[10px] text-gray-400 hover:text-rose-500 font-bold uppercase transition-colors">Clear</button>
+                <div className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-black/20 md:col-span-2">
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Middle-ware Log (Generator Flow)</span>
                     </div>
-                    <div className="font-mono text-[11px] space-y-1">
-                        <div className="text-blue-500">→ [TAKE_LATEST] watching: user/fetchUserRequest</div>
-                        {loading && <div className="text-amber-500">→ [CALL] fetch(jsonplaceholder/users/...)</div>}
-                        {user && <div className="text-emerald-500">→ [PUT] user/fetchUserSuccess</div>}
-                        {error && <div className="text-red-500">→ [PUT] user/fetchUserFailure</div>}
+                    <div className="font-mono text-[10px] space-y-1 h-12 overflow-hidden">
+                        {lastSagaAction && (
+                            <>
+                                <div className="text-blue-500">→ [TAKE_LATEST] caught action: {lastSagaAction}</div>
+                                <div className="text-amber-500">→ [CALL] external API via yield call(...)</div>
+                                {(posts.length > 0 || user) && <div className="text-emerald-500">→ [PUT] updating state via yield put(...)</div>}
+                            </>
+                        )}
+                        {!lastSagaAction && <div className="text-gray-400">Waiting for dispatched actions...</div>}
                     </div>
                 </div>
             </section>
 
-            {/* User Result */}
-            <main className="min-h-[300px]">
-                {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 gap-4">
-                        <div className="relative">
-                            <div className="w-16 h-16 rounded-full border-4 border-rose-100 dark:border-rose-900/30"></div>
-                            <div className="absolute top-0 left-0 w-16 h-16 rounded-full border-4 border-rose-600 border-t-transparent animate-spin"></div>
-                        </div>
-                        <p className="text-gray-500 animate-pulse">Saga is processing effects...</p>
-                    </div>
-                ) : user ? (
-                    <div className="p-8 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl overflow-hidden relative group">
-                        <div className="absolute top-0 right-0 p-8 text-rose-500/10 -rotate-12 transform group-hover:scale-110 transition-transform">
-                            <Fingerprint size={120} />
-                        </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Posts Column */}
+                <div className="lg:col-span-2 space-y-4">
+                    <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
+                        <Database className="text-rose-500" size={20} />
+                        Saga Managed Posts
+                    </h2>
 
-                        <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start">
-                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-rose-500/30">
-                                {user.name.charAt(0)}
-                            </div>
+                    {postsLoading && lastSagaAction?.startsWith('POSTS') ? (
+                        <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800">
+                            <Loader2 className="animate-spin text-rose-500 mb-4" size={40} />
+                            <p className="text-gray-500 font-mono text-sm">Generator is yielding effects...</p>
+                        </div>
+                    ) : posts.length > 0 ? (
+                        <div className="grid grid-cols-1 gap-4">
+                            {posts.map((post) => (
+                                <article key={post.id} className="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all group">
+                                    <div className="flex justify-between items-start gap-4">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-[10px] bg-rose-100 text-rose-600 px-2 py-0.5 rounded-md font-bold uppercase">SAGA_ID: {post.id}</span>
+                                            </div>
+                                            <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">{post.title}</h3>
+                                            <p className="text-sm text-gray-500 line-clamp-2">{post.body}</p>
+                                        </div>
+                                        <div className="flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button onClick={() => handleUpdatePost(post)} className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100" title="Full Update (PUT)">
+                                                <Edit size={14} />
+                                            </button>
+                                            <button onClick={() => handlePatchPost(post.id)} className="p-2 bg-blue-50 text-blue-600 rounded-lg shadow-sm hover:bg-blue-100" title="Partial Update (PATCH)">
+                                                <Zap size={14} />
+                                            </button>
+                                            <button onClick={() => handleDeletePost(post.id)} className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100" title="Delete">
+                                                <X size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-20 bg-gray-50 dark:bg-black/10 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 text-gray-400 italic text-sm">
+                            No posts loaded via Saga.
+                        </div>
+                    )}
+                </div>
 
-                            <div className="flex-1 space-y-4">
+                {/* Sidebar: User Fetch + Theory */}
+                <div className="space-y-8">
+                    <div className="p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl">
+                        <h3 className="font-bold mb-4 flex items-center gap-2">
+                            <UserIcon size={18} className="text-rose-500" />
+                            User Probe
+                        </h3>
+                        {user ? (
+                            <div className="space-y-3">
+                                <div className="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white font-bold">
+                                    {user.name.charAt(0)}
+                                </div>
                                 <div>
-                                    <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{user.name}</h2>
-                                    <p className="text-rose-500 font-medium">@{user.username}</p>
+                                    <p className="font-bold text-sm">{user.name}</p>
+                                    <p className="text-xs text-gray-500">{user.email}</p>
                                 </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-                                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400 italic">
-                                        <Mail size={18} className="text-rose-400" />
-                                        <span className="text-sm">{user.email}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400 italic">
-                                        <Globe size={18} className="text-rose-400" />
-                                        <span className="text-sm">website.me</span>
-                                    </div>
-                                </div>
+                                <button
+                                    onClick={() => handleFetchUser(Math.floor(Math.random() * 10) + 1)}
+                                    className="w-full py-2 text-xs font-bold text-rose-500 border border-rose-100 rounded-lg hover:bg-rose-50 transition-colors"
+                                >
+                                    Fetch Another
+                                </button>
                             </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="text-center py-20 bg-gray-50 dark:bg-black/10 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 flex flex-col items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400">
-                            <Search size={20} />
-                        </div>
-                        <p className="text-gray-400">No user data fetched through Saga yet.</p>
-                    </div>
-                )}
-            </main>
-
-            {/* Saga Concept Card */}
-            <footer className="mt-20 p-8 rounded-3xl bg-gray-900 text-white shadow-2xl relative overflow-hidden">
-                <div className="absolute bottom-0 right-0 p-12 text-white/5 opacity-50 rotate-12">
-                    <RefreshCcw size={200} />
-                </div>
-
-                <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                    <div className="w-1.5 h-8 bg-rose-500 rounded-full"></div>
-                    The Saga Lifecycle
-                </h2>
-
-                <div className="space-y-6 relative z-10">
-                    <div className="flex gap-4">
-                        <span className="font-mono text-rose-500 font-bold">01.</span>
-                        <div>
-                            <p className="font-bold">Watching (Take Latest)</p>
-                            <p className="text-sm text-gray-400">The <code>watcher</code> saga sits in the background. If you spam the button, <code>takeLatest</code> cancels the previous fetch and only cares about the last one.</p>
-                        </div>
+                        ) : (
+                            <button
+                                onClick={() => handleFetchUser(1)}
+                                disabled={userLoading}
+                                className="w-full py-6 border-2 border-dashed border-gray-100 rounded-2xl text-gray-400 hover:text-rose-500 hover:border-rose-200 transition-all flex flex-col items-center gap-2"
+                            >
+                                {userLoading ? <Loader2 className="animate-spin" /> : <Search size={20} />}
+                                <span className="text-xs font-bold uppercase tracking-widest">Load Random User</span>
+                            </button>
+                        )}
                     </div>
 
-                    <div className="flex gap-4">
-                        <span className="font-mono text-rose-500 font-bold">02.</span>
-                        <div>
-                            <p className="font-bold">Call (Worker)</p>
-                            <p className="text-sm text-gray-400">The <code>worker</code> saga is triggered. It uses the <code>call</code> effect to run the async fetch. Generators allow it to &apos;yield&apos; (pause) until the promise resolves.</p>
+                    <div className="p-6 rounded-3xl bg-gray-900 text-white relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-10">
+                            <Binary size={80} />
                         </div>
-                    </div>
-
-                    <div className="flex gap-4">
-                        <span className="font-mono text-rose-500 font-bold">03.</span>
-                        <div>
-                            <p className="font-bold">Put (Dispatch)</p>
-                            <p className="text-sm text-gray-400">Once data is ready, the saga uses <code>put</code> to dispatch a success action (like a normal Redux dispatch) to update the state.</p>
-                        </div>
+                        <h3 className="font-bold text-rose-500 mb-4 text-sm uppercase tracking-widest">Saga Logic</h3>
+                        <ul className="space-y-4">
+                            <li className="flex gap-3">
+                                <div className="w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center text-[10px] font-bold text-rose-500 shrink-0">1</div>
+                                <p className="text-xs text-gray-400 italic">Dispatched actions are &quot;caught&quot; by a watcher thread.</p>
+                            </li>
+                            <li className="flex gap-3">
+                                <div className="w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center text-[10px] font-bold text-rose-500 shrink-0">2</div>
+                                <p className="text-xs text-gray-400 italic">Workers use `yield call` to perform non-blocking async work.</p>
+                            </li>
+                            <li className="flex gap-3">
+                                <div className="w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center text-[10px] font-bold text-rose-500 shrink-0">3</div>
+                                <p className="text-xs text-gray-400 italic">State updates happen via `yield put` (same as dispatch).</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </footer>
+            </div>
         </div>
     );
 }

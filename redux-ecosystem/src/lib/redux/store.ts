@@ -14,11 +14,13 @@ import rootSaga from './sagas/rootSaga';
 import counterReducer from './slices/counterSlice';
 import postsReducer from './slices/postsSlice';
 import userReducer from './slices/userSlice';
+import postsSagaReducer from './slices/postsSagaSlice';
 
 const rootReducer = combineReducers({
     counter: counterReducer,
     posts: postsReducer,
     user: userReducer,
+    postsSaga: postsSagaReducer,
 });
 
 const persistConfig = {
