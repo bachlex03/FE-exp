@@ -137,6 +137,11 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - en: Plain actions cannot handle side-effects (like waiting for a server response). Thunks provide a place to put the `fetch` or `axios` call and then dispatch the resulting data once it arrives, while also managing loading and error states in the global store.
 - vi: Các action thông thường không thể xử lý side-effects (như đợi phản hồi từ server). Thunks cung cấp một nơi để thực hiện cuộc gọi `fetch` hoặc `axios` và sau đó dispatch dữ liệu kết quả khi nó đến, đồng thời quản lý các trạng thái loading và error trong global store.
 
+**What is the difference between PUT and PATCH?**:
+
+- en: PUT is used for "Full Updates" — you send the entire object to the server to replace the existing one. If you miss a field, it might be set to null. PATCH is for "Partial Updates" — you only send the fields you want to change, and the server leaves the rest of the object untouched.
+- vi: PUT được sử dụng cho "Cập nhật toàn phần" — bạn gửi toàn bộ đối tượng lên server để thay thế đối tượng hiện có. Nếu bạn thiếu một trường, trường đó có thể bị đặt thành null. PATCH dành cho "Cập nhật từng phần" — bạn chỉ gửi các trường bạn muốn thay đổi và server sẽ giữ nguyên phần còn lại của đối tượng.
+
 ### Redux Saga
 
 **What is Redux Saga?**:
@@ -178,6 +183,7 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - en: Vitest is faster, uses the same configuration as Vite/Next.js, and has native support for TypeScript and ESM. It avoids the "configuration hell" of Jest when dealing with modern tools like Tailwind or complex import aliases.
 - vi: Vitest nhanh hơn, sử dụng cùng một cấu hình với Vite/Next.js và hỗ trợ gốc cho TypeScript cũng như ESM. Nó tránh được "cơn ác mộng cấu hình" của Jest khi làm việc với các công cụ hiện đại như Tailwind hoặc các import alias phức tạp.
 
+
 ### Next.js & Redux Persistence (SSR)
 
 **Why do we need a "No-op" storage in `storage.ts`?**:
@@ -196,3 +202,20 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 
 - en: No. In Next.js, "children" passed to a Client Component from a Server Component remain Server Components. This "Wrapper Pattern" allows you to maintain Server Component benefits (like SEO and performance) while still providing client-side context like Redux.
 - vi: Không. Trong Next.js, các "children" được truyền vào một Client Component từ một Server Component vẫn giữ nguyên là Server Components. "Wrapper Pattern" này cho phép bạn duy trì các lợi ích của Server Component (như SEO và hiệu suất) trong khi vẫn cung cấp context phía client như Redux.
+
+### Web API & Security
+
+**What is the HTTP OPTIONS method (Preflight Request)?**:
+
+- en: OPTIONS is a "preflight" request automatically sent by the browser. 
+    - **Why it happens (CORS)**: Since our app is on `localhost:3000` and the API is on `json-placeholder`, they are different "Origins". The browser triggers a preflight if the request is "Non-Simple" (e.g., using `POST/PUT/DELETE` or custom headers like `Content-Type: application/json`).
+    - **How it works**:
+        1. **Preflight**: Browser sends an `OPTIONS` request to check permissions.
+        2. **Response**: Server responds with allowed methods and origins.
+        3. **Actual Request**: Browser sends the real data only after the preflight is successful.
+- vi: OPTIONS là một yêu cầu "tiền kiểm" (preflight) được trình duyệt tự động gửi đi.
+    - **Tại sao nó xảy ra (CORS)**: Vì ứng dụng của chúng ta ở `localhost:3000` và API ở `json-placeholder`, chúng là các "Origin" khác nhau. Trình duyệt sẽ kích hoạt preflight nếu yêu cầu là "Không đơn giản" (ví dụ: sử dụng `POST/PUT/DELETE` hoặc các header tùy chỉnh như `Content-Type: application/json`).
+    - **Cách thức hoạt động**:
+        1. **Preflight**: Trình duyệt gửi yêu cầu `OPTIONS` để kiểm tra quyền.
+        2. **Phản hồi**: Server phản hồi với các phương thức và origin được phép.
+        3. **Yêu cầu thực tế**: Trình duyệt chỉ gửi dữ liệu thật sau khi preflight thành công.
