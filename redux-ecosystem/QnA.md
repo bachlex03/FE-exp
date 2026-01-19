@@ -120,6 +120,23 @@ En: In Next.js, we use a function (**makeStore**) to create a new store instance
 Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra một instance store mới cho mỗi request (ở server) hoặc một lần ở client. Chúng ta cần kiểu chính xác của instance này để định nghĩa **RootState** (dữ liệu bên trong là gì) và **AppDispatch** (các action có thể gửi đi). Điều này đảm bảo an toàn kiểu 100% khi bạn dùng **useSelector** hay **useDispatch**.
 
 
+### Redux Thunk
+
+**What is Redux Thunk?**:
+
+- en: Redux Thunk is a middleware that allows you to write action creators that return a function instead of an action object. This function can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met (perfect for async API calls).
+- vi: Redux Thunk là một middleware cho phép bạn viết các action creator trả về một hàm thay vì một đối tượng action. Hàm này có thể được sử dụng để trì hoãn việc dispatch một action, hoặc chỉ dispatch nếu một điều kiện nhất định được đáp ứng (hoàn hảo cho các cuộc gọi API bất đồng bộ).
+
+**How does `createAsyncThunk` work in RTK?**:
+
+- en: It abstracts the standard thunk pattern. It accepts an action type string and a callback function that returns a promise. It automatically generates three action types: `pending`, `fulfilled`, and `rejected`, which you can handle in `extraReducers`.
+- vi: Nó tóm tắt mô hình thunk tiêu chuẩn. Nó chấp nhận một chuỗi loại action và một hàm callback trả về một promise. Nó tự động tạo ra ba loại action: `pending`, `fulfilled`, và `rejected`, mà bạn có thể xử lý trong `extraReducers`.
+
+**Why use Thunk over plain actions for APIs?**:
+
+- en: Plain actions cannot handle side-effects (like waiting for a server response). Thunks provide a place to put the `fetch` or `axios` call and then dispatch the resulting data once it arrives, while also managing loading and error states in the global store.
+- vi: Các action thông thường không thể xử lý side-effects (như đợi phản hồi từ server). Thunks cung cấp một nơi để thực hiện cuộc gọi `fetch` hoặc `axios` và sau đó dispatch dữ liệu kết quả khi nó đến, đồng thời quản lý các trạng thái loading và error trong global store.
+
 ### Next.js & Redux Composition
 
 **Does wrapping the app in a Client Component Provider make everything a Client Component?**:

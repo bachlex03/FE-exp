@@ -10,9 +10,11 @@ import {
 } from 'redux-persist';
 import storage from './storage';
 import counterReducer from './slices/counterSlice';
+import postsReducer from './slices/postsSlice';
 
 const rootReducer = combineReducers({
     counter: counterReducer,
+    posts: postsReducer,
 });
 
 const persistConfig = {
