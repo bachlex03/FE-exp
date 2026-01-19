@@ -137,6 +137,47 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - en: Plain actions cannot handle side-effects (like waiting for a server response). Thunks provide a place to put the `fetch` or `axios` call and then dispatch the resulting data once it arrives, while also managing loading and error states in the global store.
 - vi: Các action thông thường không thể xử lý side-effects (như đợi phản hồi từ server). Thunks cung cấp một nơi để thực hiện cuộc gọi `fetch` hoặc `axios` và sau đó dispatch dữ liệu kết quả khi nó đến, đồng thời quản lý các trạng thái loading và error trong global store.
 
+### Redux Saga
+
+**What is Redux Saga?**:
+
+- en: Redux Saga is a middleware library that aims to make application side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) easier to manage, more efficient to execute, easy to test, and better at handling failures.
+- vi: Redux Saga là một thư viện middleware nhằm mục đích làm cho các side effects của ứng dụng (ví dụ: các tác vụ bất đồng bộ như lấy dữ liệu và các tác vụ không thuần túy như truy cập bộ nhớ đệm trình duyệt) trở nên dễ quản lý hơn, thực thi hiệu quả hơn, dễ kiểm tra và xử lý lỗi tốt hơn.
+
+**How does it differ from Thunk?**:
+
+- en: Thunk uses functions and promises, while Saga uses Generator Functions and "Effects" (plain objects that describe the intent). Sagas act like a separate thread in your application that listens for actions and performs logic in response, unlike Thunks which are called directly like regular actions.
+- vi: Thunk sử dụng các hàm và promise, trong khi Saga sử dụng các Hàm Generator và "Effects" (các đối tượng đơn giản mô tả mục đích). Saga hoạt động như một luồng riêng biệt trong ứng dụng của bạn, lắng nghe các action và thực hiện logic phản hồi, không giống như Thunk được gọi trực tiếp như các action thông thường.
+
+**What are 'Effects' in Redux Saga?**:
+
+- en: Effects are instructions for the middleware. Common effects include `call` (run a function), `put` (dispatch an action), `takeLatest` (cancel older requests and start a new one), and `all` (run multiple sagas in parallel).
+- vi: Effects là các hướng dẫn cho middleware. Các hiệu ứng phổ biến bao gồm `call` (chạy một hàm), `put` (dispatch một action), `takeLatest` (hủy các yêu cầu cũ và bắt đầu một yêu cầu mới), và `all` (chạy nhiều saga song song).
+
+### Generator Functions & yield (ES6)
+
+**What is `function*` and `yield`?**:
+
+- en: `function*` defines a Generator function which can be exited and later re-entered. `yield` is an operator that pauses the generator. In Sagas, we yield "Effects" (objects) to the middleware, which performs the work and returns the result back to the generator.
+- vi: `function*` định nghĩa một hàm Generator có thể thoát ra và sau đó quay lại. `yield` là một toán tử tạm dừng generator. Trong Saga, chúng ta yield các "Effects" (đối tượng) cho middleware, middleware này sẽ thực hiện công việc và trả kết quả ngược lại cho generator.
+
+**Why use Generators instead of async/await?**:
+
+- en: While `async/await` is great for simple sequential calls, Generators allow for much more complex control flows. Sagas can be cancelled midway, run in parallel, or wait for specific external actions—capabilities that are difficult or impossible with standard Promises.
+- vi: Mặc dù `async/await` rất tốt cho các cuộc gọi tuần tự đơn giản, Generator cho phép các luồng kiểm soát phức tạp hơn nhiều. Saga có thể bị hủy bỏ giữa chừng, chạy song song hoặc đợi các action bên ngoài cụ thể—các khả năng rất khó hoặc không thể thực hiện được với Promise tiêu chuẩn.
+
+**Is it true that Redux Saga is easier to test than Thunk?**:
+
+- en: Yes. Because Sagas yield plain objects (Effects), you can test the entire logic flow without ever mocking a network request or a database. You simply iterate through the generator and check if the yielded Effect objects match your expectations.
+- vi: Đúng vậy. Bởi vì Saga yield các đối tượng đơn giản (Effects), bạn có thể kiểm tra toàn bộ luồng logic mà không bao giờ cần mock một yêu cầu mạng hoặc cơ sở dữ liệu. Bạn chỉ cần lặp qua generator và kiểm tra xem các đối tượng Effect được yield có khớp với mong đợi của bạn hay không.
+
+### Vitest vs Jest
+
+**Why use Vitest instead of Jest?**:
+
+- en: Vitest is faster, uses the same configuration as Vite/Next.js, and has native support for TypeScript and ESM. It avoids the "configuration hell" of Jest when dealing with modern tools like Tailwind or complex import aliases.
+- vi: Vitest nhanh hơn, sử dụng cùng một cấu hình với Vite/Next.js và hỗ trợ gốc cho TypeScript cũng như ESM. Nó tránh được "cơn ác mộng cấu hình" của Jest khi làm việc với các công cụ hiện đại như Tailwind hoặc các import alias phức tạp.
+
 ### Next.js & Redux Composition
 
 **Does wrapping the app in a Client Component Provider make everything a Client Component?**:

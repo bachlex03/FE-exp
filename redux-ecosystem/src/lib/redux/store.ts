@@ -9,12 +9,16 @@ import {
     REGISTER,
 } from 'redux-persist';
 import storage from './storage';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas/rootSaga';
 import counterReducer from './slices/counterSlice';
 import postsReducer from './slices/postsSlice';
+import userReducer from './slices/userSlice';
 
 const rootReducer = combineReducers({
     counter: counterReducer,
     posts: postsReducer,
+    user: userReducer,
 });
 
 const persistConfig = {
@@ -26,6 +30,8 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const makeStore = () => {
+    const sagaMiddleware = createSagaMiddleware();
+
     const store = configureStore({
         reducer: persistedReducer,
         middleware: (getDefaultMiddleware) =>
@@ -33,8 +39,10 @@ export const makeStore = () => {
                 serializableCheck: {
                     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
                 },
-            }),
+            }).concat(sagaMiddleware),
     });
+
+    sagaMiddleware.run(rootSaga);
 
     return store;
 };
