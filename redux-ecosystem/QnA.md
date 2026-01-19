@@ -293,3 +293,8 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 
 - en: Yes. It is considered a best practice for validating endpoint configurations, ensuring cache invalidation logic (Tags) works correctly, and verifying how the UI handles various API states (Loading/Success/Error) in a controlled but realistic environment.
 - vi: Có. Nó được coi là một thực hành tốt nhất (best practice) để xác thực cấu hình endpoint, đảm bảo logic vô hiệu hóa bộ nhớ đệm (Tags) hoạt động chính xác và xác minh cách UI xử lý các trạng thái API khác nhau (Loading/Success/Error) trong một môi trường được kiểm soát nhưng thực tế.
+
+**Is it possible to write unit tests for Redux Thunk and React Query?**:
+
+- en: Yes. For **Redux Thunk**, you test by dispatching the thunk to a real or mock store and asserting the state changes in the reducer. For **React Query**, you use `renderHook` and wrap it in a `QueryClientProvider`. Both rely on **MSW** to mock the network layer, making the tests realistic without needing a real server.
+- vi: Có. Đối với **Redux Thunk**, bạn kiểm tra bằng cách dispatch thunk tới một store thật hoặc giả lập và kiểm tra sự thay đổi trạng thái trong reducer. Đối với **React Query**, bạn sử dụng `renderHook` và bao bọc nó trong một `QueryClientProvider`. Cả hai đều dựa trên **MSW** để giả lập lớp mạng, giúp các bài test trở nên thực tế mà không cần server thật.
