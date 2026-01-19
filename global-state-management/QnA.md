@@ -40,3 +40,28 @@
 **When should you create a typed Redux setup?**:
 - en: You should set up types (RootState, AppDispatch) during the initial store configuration. This is crucial in TypeScript projects to ensure that every time you use a hook like `useAppSelector`, you have full autocomplete and type safety, preventing common errors when accessing the global state.
 - vi: Bạn nên thiết lập các kiểu dữ liệu (RootState, AppDispatch) ngay trong quá trình cấu hình store ban đầu. Điều này cực kỳ quan trọng trong các dự án TypeScript để đảm bảo rằng mỗi khi bạn sử dụng một hook như `useAppSelector`, bạn sẽ có đầy đủ tính năng tự động gợi ý và an toàn kiểu, ngăn chặn các lỗi phổ biến khi truy cập trạng thái toàn cục.
+### Zustand
+
+**What is Zustand?**:
+- en: Zustand is a small, fast, and scalable state management library for React. It is known for its "bearbones" approach, providing a minimalist API that is easy to understand and integrate without the complexity of traditional state containers.
+- vi: Zustand là một thư viện quản lý trạng thái nhỏ, nhanh và có thể mở rộng cho React. Nó nổi tiếng với cách tiếp cận tối giản, cung cấp một API cực kỳ đơn giản, dễ hiểu và dễ tích hợp mà không có sự phức tạp của các bộ chứa trạng thái truyền thống.
+
+**Why use Zustand?**:
+- en: Zustand is preferred for its lack of boilerplate. It doesn't require wrapping your app in a `Provider`, it has a very low learning curve, and it offers great performance out of the box through fine-grained selectors that prevent unnecessary re-renders.
+- vi: Zustand được ưa chuộng vì không yêu cầu mã lặp (boilerplate). Nó không cần phải bao bọc ứng dụng của bạn trong một `Provider`, có quy trình học tập rất ngắn và mang lại hiệu suất tuyệt vời nhờ tính năng selector chi tiết giúp ngăn chặn việc render lại không cần thiết.
+
+**How does it work?**:
+- en: You use the `create` function to define a store, which returns a custom hook. This hook contains both the state variables and the functions (actions) to update them. Components simply call this hook to access what they need.
+- vi: Bạn sử dụng hàm `create` để định nghĩa một store, hàm này trả về một hook tùy chỉnh. Hook này chứa cả các biến trạng thái và các hàm (action) để cập nhật chúng. Các component chỉ cần gọi hook này để truy cập những gì chúng cần.
+
+**Where to use Zustand in Next.js?**:
+- en: Like Redux, Zustand is used in **Client Components**. However, because it doesn't require a `Provider`, you can simply import your store hook and use it directly in any client-side file. This makes it much easier to set up for global state that doesn't need to be initiated on the server.
+- vi: Giống như Redux, Zustand được sử dụng trong các **Client Component**. Tuy nhiên, vì nó không yêu cầu `Provider`, bạn chỉ cần import store hook và sử dụng trực tiếp trong bất kỳ tệp phía client nào. Điều này giúp việc thiết lập trạng thái toàn cục dễ dàng hơn nhiều khi không cần khởi tạo trên server.
+
+**Who should choose Zustand over Redux?**:
+- en: Developers who value speed, simplicity, and minimalism. It is ideal for teams who want to manage shared state without the overhead of actions, reducers, and providers, or for projects that don't require Redux's extensive middleware ecosystem.
+- vi: Những nhà phát triển coi trọng tốc độ, sự đơn giản và tính tối giản. Nó lý tưởng cho các nhóm muốn quản lý trạng thái chia sẻ mà không cần các thành phần rườm rà như action, reducer và provider, hoặc cho các dự án không yêu cầu hệ sinh thái middleware sâu rộng của Redux.
+
+**When to use selectors in Zustand?**:
+- en: You should always use selectors (e.g., `useStore(state => state.value)`) instead of destructuring the whole store. This ensures that your component only re-renders when the specific part of the state it is interested in actually changes, maintaining high performance.
+- vi: Bạn nên luôn sử dụng selector (ví dụ: `useStore(state => state.value)`) thay vì destructuring toàn bộ store. Điều này đảm bảo rằng component của bạn chỉ render lại khi phần trạng thái cụ thể mà nó quan tâm thực sự thay đổi, giúp duy trì hiệu suất cao.
