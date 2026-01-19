@@ -44,3 +44,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [ ] Data fetching with TanStack Query
 - [ ] Persistence with Redux Persist
 - [ ] Comparative analysis and patterns for each tool
+
+
+## Some useful resources
+
+- [Redux Ecosystem](https://redux-toolkit.js.org/tutorials/overview)
+- [Setup Next.js with Redux](https://blog.logrocket.com/use-redux-next-js/)
+- [MSW - Mock Service Worker](https://www.npmjs.com/package/msw)
+- [MSW Testing](https://www.youtube.com/watch?v=HcQCqboatZk)

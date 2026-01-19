@@ -236,3 +236,15 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
         1. **Preflight**: Trình duyệt gửi yêu cầu `OPTIONS` để kiểm tra quyền.
         2. **Phản hồi**: Server phản hồi với các phương thức và origin được phép.
         3. **Yêu cầu thực tế**: Trình duyệt chỉ gửi dữ liệu thật sau khi preflight thành công.
+
+### Testing & Mocking
+
+**What problem does MSW (Mock Service Worker) solve?**:
+
+- en: MSW intercepts network requests at the browser/node level and returns mock responses. This solves the problem of "fragile" mocks (like spying on `fetch`), allows testing realistic status codes and headers, and makes tests implementation-independent. Your app thinks it's talking to a real server.
+- vi: MSW chặn các yêu cầu mạng ở cấp độ trình duyệt/node và trả về các phản hồi giả lập. Điều này giải quyết vấn đề về các bản mock "mong manh" (như việc spy vào `fetch`), cho phép kiểm tra các mã trạng thái và header thực tế, đồng thời làm cho các bài test không phụ thuộc vào cách thực hiện nội bộ. Ứng dụng của bạn sẽ tin rằng nó đang giao tiếp với một máy chủ thực sự.
+
+**Is RTK Query testing common in professional projects?**:
+
+- en: Yes. It is considered a best practice for validating endpoint configurations, ensuring cache invalidation logic (Tags) works correctly, and verifying how the UI handles various API states (Loading/Success/Error) in a controlled but realistic environment.
+- vi: Có. Nó được coi là một thực hành tốt nhất (best practice) để xác thực cấu hình endpoint, đảm bảo logic vô hiệu hóa bộ nhớ đệm (Tags) hoạt động chính xác và xác minh cách UI xử lý các trạng thái API khác nhau (Loading/Success/Error) trong một môi trường được kiểm soát nhưng thực tế.
