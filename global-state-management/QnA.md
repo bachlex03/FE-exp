@@ -83,3 +83,14 @@
 **What is the purpose of `serializableCheck` in middleware?**:
 - en: Redux Toolkit expects all actions to be plain objects. `redux-persist` uses special actions (like REHYDRATE) that may contain non-serializable data. We must configure the middleware to ignore these specific actions to avoid console warnings.
 - vi: Redux Toolkit yêu cầu tất cả các action phải là các đối tượng đơn giản. `redux-persist` sử dụng các action đặc biệt (như REHYDRATE) có thể chứa dữ liệu không thể tuần tự hóa. Chúng ta phải cấu hình middleware để bỏ qua các action cụ thể này nhằm tránh các cảnh báo trong console.
+- vi: Redux Toolkit yêu cầu tất cả các action phải là các đối tượng đơn giản. `redux-persist` sử dụng các action đặc biệt (như REHYDRATE) có thể chứa dữ liệu không thể tuần tự hóa. Chúng ta phải cấu hình middleware để bỏ qua các action cụ thể này nhằm tránh các cảnh báo trong console.
+
+### Zustand Persistence
+
+**Does Zustand have a feature like redux-persist?**:
+- en: Yes. Zustand includes a built-in `persist` middleware. It allows you to save your store state to `localStorage`, `sessionStorage`, or IndexedDB with very minimal configuration compared to Redux.
+- vi: Có. Zustand bao gồm một middleware `persist` được tích hợp sẵn. Nó cho phép bạn lưu trạng thái store vào `localStorage`, `sessionStorage` hoặc IndexedDB với cấu hình cực kỳ tối giản so với Redux.
+
+**What are the advantages of Zustand persistence over Redux?**:
+- en: The main advantage is simplicity. You don't need to create separate storage files or configure complex middleware ignore-lists. You simply wrap your store in the `persist` function and give it a unique name. It also handles hydration automatically for Next.js.
+- vi: Ưu điểm chính là sự đơn giản. Bạn không cần tạo các tệp lưu trữ riêng biệt hay cấu hình các danh sách bỏ qua (ignore-list) phức tạp cho middleware. Bạn chỉ cần bao bọc store của mình trong hàm `persist` và đặt cho nó một cái tên duy nhất. Nó cũng tự động xử lý quá trình hydration cho Next.js.
