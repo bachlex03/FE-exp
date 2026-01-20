@@ -1,3 +1,3 @@
-import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-export const counterAtom = atom(0);
+export const counterAtom = atomWithStorage('jotai-counter', 0);

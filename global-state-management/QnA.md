@@ -113,3 +113,14 @@
 **Where to use Jotai in Next.js?**:
 - en: Jotai atoms are defined outside of components and can be used in **Client Components** via hooks like `useAtom`, `useAtomValue`, or `useSetAtom`. It doesn't strictly require a Provider for basic usage, but a `Provider` can be used to scope state to a specific component tree or for SSR hydration.
 - vi: Các Jotai atom được định nghĩa bên ngoài component và có thể được sử dụng trong các **Client Component** thông qua các hook như `useAtom`, `useAtomValue` hoặc `useSetAtom`. Nó không bắt buộc phải có Provider cho việc sử dụng cơ bản, nhưng `Provider` có thể được sử dụng để giới hạn phạm vi trạng thái cho một cây component cụ thể hoặc cho quá trình hydration trong SSR.
+- vi: Các Jotai atom được định nghĩa bên ngoài component và có thể được sử dụng trong các **Client Component** thông qua các hook như `useAtom`, `useAtomValue` hoặc `useSetAtom`. Nó không bắt buộc phải có Provider cho việc sử dụng cơ bản, nhưng `Provider` có thể được sử dụng để giới hạn phạm vi trạng thái cho một cây component cụ thể hoặc cho quá trình hydration trong SSR.
+
+### Jotai Persistence
+
+**Does Jotai have a feature like redux-persist?**:
+- en: Yes. Jotai provides a utility called `atomWithStorage` in the `jotai/utils` bundle. It allows you to create atoms that automatically synchronize their state with `localStorage`, `sessionStorage`, or even a custom storage interface.
+- vi: Có. Jotai cung cấp một tiện ích gọi là `atomWithStorage` trong gói `jotai/utils`. Nó cho phép bạn tạo các atom tự động đồng bộ hóa trạng thái của chúng với `localStorage`, `sessionStorage` hoặc thậm chí là một giao diện lưu trữ tùy chỉnh.
+
+**What are the benefits of Jotai's persistence approach?**:
+- en: Its benefit lies in its "bottom-up" simplicity. You don't need to configure a root persistence config for the whole app. You can choose exactly which piece of state (which atom) should be persistent simply by changing the function name. It also has built-in support for SSR hydration.
+- vi: Lợi ích của nó nằm ở sự đơn giản "từ dưới lên". Bạn không cần cấu hình một persist config gốc cho toàn bộ ứng dụng. Bạn có thể chọn chính xác phần trạng thái nào (atom nào) cần được lưu trữ đơn giản bằng cách thay đổi tên hàm. Nó cũng tích hợp sẵn hỗ trợ cho quá trình hydration trong SSR.
