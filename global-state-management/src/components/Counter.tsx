@@ -6,6 +6,8 @@ export const Counter = () => {
     const count = useAppSelector((state) => state.counter.value);
     const dispatch = useAppDispatch();
 
+    console.log("Here");
+
     return (
         <div className="flex flex-col items-center gap-4 p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800">
             <h2 className="text-2xl font-bold text-zinc-800 dark:text-zinc-100">Redux Counter</h2>
