@@ -276,3 +276,19 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 
 - en: Yes. For **Redux Thunk**, you test by dispatching the thunk to a real or mock store and asserting the state changes in the reducer. For **React Query**, you use `renderHook` and wrap it in a `QueryClientProvider`. Both rely on **MSW** to mock the network layer, making the tests realistic without needing a real server.
 - vi: Có. Đối với **Redux Thunk**, bạn kiểm tra bằng cách dispatch thunk tới một store thật hoặc giả lập và kiểm tra sự thay đổi trạng thái trong reducer. Đối với **React Query**, bạn sử dụng `renderHook` và bao bọc nó trong một `QueryClientProvider`. Cả hai đều dựa trên **MSW** để giả lập lớp mạng, giúp các bài test trở nên thực tế mà không cần server thật.
+
+### Architecture & Best Practices
+
+**Which combination of tools is considered "Best Practice" for Global State + API Fetching?**:
+
+- en: There are two main industry-standard combinations:
+    1. **Unified (RTK + RTK Query)**: Best if you want a single source of truth and everything integrated into the Redux DevTools. It has zero-boilerplate for API states.
+    2. **Modular (React Query + Zustand/Jotai)**: Best for speed, minimalism, and a "hook-first" feel. This is currently the most popular choice for new projects because it separates "Server State" from "UI State" perfectly.
+- vi: Có hai sự kết hợp tiêu chuẩn chính trong ngành:
+    1. **Thống nhất (RTK + RTK Query)**: Tốt nhất nếu bạn muốn một nguồn sự thật duy nhất và mọi thứ được tích hợp vào Redux DevTools. Nó không có mã lặp cho các trạng thái API.
+    2. **Mô-đun (React Query + Zustand/Jotai)**: Tốt nhất cho tốc độ, tính tối giản và cảm giác "hook-first". Đây hiện là lựa chọn phổ biến nhất cho các dự án mới vì nó tách biệt hoàn hảo "Trạng thái Server" khỏi "Trạng thái UI".
+
+**Why is using Redux Thunk or Saga for simple CRUD no longer recommended?**:
+
+- en: Modern libraries like RTK Query and React Query handle caching, loading states, and error handling automatically. Using Thunk or Saga for simple `GET/POST` requests is "manual labor" that leads to unnecessary boilerplate and more chances for bugs. Use Sagas only for complex, multi-step async business logic.
+- vi: Các thư viện hiện đại như RTK Query và React Query tự động xử lý việc lưu bộ nhớ đệm, trạng thái tải và xử lý lỗi. Sử dụng Thunk hoặc Saga cho các yêu cầu `GET/POST` đơn giản là "lao động thủ công", dẫn đến mã rườm rà không cần thiết và nhiều cơ hội xảy ra lỗi hơn. Chỉ sử dụng Saga cho các logic nghiệp vụ bất đồng bộ phức tạp, nhiều bước.

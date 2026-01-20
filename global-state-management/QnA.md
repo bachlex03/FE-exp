@@ -113,7 +113,6 @@
 **Where to use Jotai in Next.js?**:
 - en: Jotai atoms are defined outside of components and can be used in **Client Components** via hooks like `useAtom`, `useAtomValue`, or `useSetAtom`. It doesn't strictly require a Provider for basic usage, but a `Provider` can be used to scope state to a specific component tree or for SSR hydration.
 - vi: Các Jotai atom được định nghĩa bên ngoài component và có thể được sử dụng trong các **Client Component** thông qua các hook như `useAtom`, `useAtomValue` hoặc `useSetAtom`. Nó không bắt buộc phải có Provider cho việc sử dụng cơ bản, nhưng `Provider` có thể được sử dụng để giới hạn phạm vi trạng thái cho một cây component cụ thể hoặc cho quá trình hydration trong SSR.
-- vi: Các Jotai atom được định nghĩa bên ngoài component và có thể được sử dụng trong các **Client Component** thông qua các hook như `useAtom`, `useAtomValue` hoặc `useSetAtom`. Nó không bắt buộc phải có Provider cho việc sử dụng cơ bản, nhưng `Provider` có thể được sử dụng để giới hạn phạm vi trạng thái cho một cây component cụ thể hoặc cho quá trình hydration trong SSR.
 
 ### Jotai Persistence
 
