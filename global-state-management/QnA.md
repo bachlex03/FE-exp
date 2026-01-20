@@ -94,3 +94,22 @@
 **What are the advantages of Zustand persistence over Redux?**:
 - en: The main advantage is simplicity. You don't need to create separate storage files or configure complex middleware ignore-lists. You simply wrap your store in the `persist` function and give it a unique name. It also handles hydration automatically for Next.js.
 - vi: Ưu điểm chính là sự đơn giản. Bạn không cần tạo các tệp lưu trữ riêng biệt hay cấu hình các danh sách bỏ qua (ignore-list) phức tạp cho middleware. Bạn chỉ cần bao bọc store của mình trong hàm `persist` và đặt cho nó một cái tên duy nhất. Nó cũng tự động xử lý quá trình hydration cho Next.js.
+- vi: Ưu điểm chính là sự đơn giản. Bạn không cần tạo các tệp lưu trữ riêng biệt hay cấu hình các danh sách bỏ qua (ignore-list) phức tạp cho middleware. Bạn chỉ cần bao bọc store của mình trong hàm `persist` và đặt cho nó một cái tên duy nhất. Nó cũng tự động xử lý quá trình hydration cho Next.js.
+
+### Jotai
+
+**What is Jotai?**:
+- en: Jotai is a primitive and flexible state management library for React. It follows an "atomic" pattern, where the state is split into small, independent units called **atoms**. These atoms can be combined and transformed to build complex state logic.
+- vi: Jotai là một thư viện quản lý trạng thái đơn giản và linh hoạt cho React. Nó tuân theo mô hình "nguyên tử" (atomic), nơi trạng thái được chia thành các đơn vị nhỏ độc lập gọi là **atoms**. Các atom này có thể được kết hợp và biến đổi để xây dựng logic trạng thái phức tạp.
+
+**Why use Jotai?**:
+- en: Jotai is excellent for fine-grained state management. It prevents unnecessary re-renders by ensuring that only components subscribed to a specific atom update when that atom's value changes. It has a very minimal API (`atom` and `useAtom`) and zero boilerplate.
+- vi: Jotai tuyệt vời cho việc quản lý trạng thái chi tiết. Nó ngăn chặn việc render lại không cần thiết bằng cách đảm bảo rằng chỉ các component đăng ký một atom cụ thể mới cập nhật khi giá trị của atom đó thay đổi. Nó có một API cực kỳ tối giản (`atom` và `useAtom`) và không có mã lặp (boilerplate).
+
+**How does it differ from Zustand?**:
+- en: While Zustand is store-based (one central store for a feature), Jotai is atom-based (many small independent pieces). Jotai is often preferred for highly dynamic UIs where state pieces are frequently added or changed, or when you need a "bottom-up" approach to state design.
+- vi: Trong khi Zustand dựa trên store (một store trung tâm cho một tính năng), Jotai dựa trên atom (nhiều phần nhỏ độc lập). Jotai thường được ưa chuộng cho các giao diện người dùng cực kỳ năng động, nơi các phần trạng thái thường xuyên được thêm vào hoặc thay đổi, hoặc khi bạn cần cách tiếp cận "từ dưới lên" cho thiết kế trạng thái.
+
+**Where to use Jotai in Next.js?**:
+- en: Jotai atoms are defined outside of components and can be used in **Client Components** via hooks like `useAtom`, `useAtomValue`, or `useSetAtom`. It doesn't strictly require a Provider for basic usage, but a `Provider` can be used to scope state to a specific component tree or for SSR hydration.
+- vi: Các Jotai atom được định nghĩa bên ngoài component và có thể được sử dụng trong các **Client Component** thông qua các hook như `useAtom`, `useAtomValue` hoặc `useSetAtom`. Nó không bắt buộc phải có Provider cho việc sử dụng cơ bản, nhưng `Provider` có thể được sử dụng để giới hạn phạm vi trạng thái cho một cây component cụ thể hoặc cho quá trình hydration trong SSR.
