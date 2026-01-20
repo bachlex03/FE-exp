@@ -94,6 +94,11 @@
 - en: Redux Toolkit has a built-in middleware that checks if all actions and state are serializable (plain strings/numbers/objects). Redux Persist uses internal actions (like FLUSH, REHYDRATE, etc.) that contain non-serializable values (promises, functions). Ignoring them prevents console warnings.
 - vi: Redux Toolkit có một middleware tích hợp sẵn để kiểm tra xem tất cả các action và state có thể tuần tự hóa hay không (chuỗi/số/object đơn giản). Redux Persist sử dụng các action nội bộ (như FLUSH, REHYDRATE, v.v.) chứa các giá trị không thể tuần tự hóa (promise, hàm). Việc bỏ qua chúng giúp ngăn chặn các cảnh báo lỗi trong console.
 
+**What is the difference between `whitelist` and `blacklist` in Redux Persist?**:
+
+- en: `whitelist` specifies only the keys (slices) you **want** to persist. `blacklist` specifies the keys you **don't want** to persist. If you use `whitelist`, anything not in the list is automatically ignored. This is useful for performance (limiting storage size) and security (excluding sensitive data).
+- vi: `whitelist` chỉ định các key (slice) bạn **muốn** lưu trữ. `blacklist` chỉ định các key bạn **không muốn** lưu trữ. Nếu bạn dùng `whitelist`, bất kỳ dữ liệu nào không có trong danh sách sẽ tự động bị bỏ qua. Điều này hữu ích cho hiệu suất (giới hạn kích thước bộ lưu trữ) và bảo mật (loại bỏ dữ liệu nhạy cảm).
+
 ### Redux & TypeScript
 
 **What does `ReturnType<typeof makeStore>` do?**:

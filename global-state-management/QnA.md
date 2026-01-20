@@ -29,6 +29,10 @@
     - **Store**: Container trung tâm chuyển trạng thái hiện tại và action cho reducer, sau đó cập nhật.
     - **Subscribers**: Các hàm được store thông báo để kích hoạt render lại giao diện với trạng thái mới.
 
+**What is Slice**:
+- en: The official documentation defines a slice as “a collection of Redux reducer logic and actions for a single feature in your app.”
+- vi: Tài liệu chính thức định nghĩa một slice là “một tập hợp các logic reducer và action của Redux cho một tính năng duy nhất trong ứng dụng của bạn.”
+
 ### Zustand
 
 **What is Zustand?**:
