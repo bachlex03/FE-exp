@@ -243,28 +243,6 @@ Vi: Trong Next.js, chúng ta dùng một hàm (**makeStore**) để tạo ra m�
 - vi: `queryKey` là mã định danh duy nhất cho một query trong cache. Nó hoạt động như một Cache ID (giữ các tập dữ liệu khác nhau tách biệt), một Dependency Array (tự động fetch lại khi bất kỳ giá trị nào trong key thay đổi), và một Mục tiêu Vô hiệu hóa (cho phép bạn đánh dấu dữ liệu cụ thể là "lỗi thời" sau một mutation).
 
 
-<!-- ### Redux vs Zustand
-
-**What are they?**:
-- en: **Redux** is a mature, feature-rich state management library with a strict unidirectional data flow and a large ecosystem. **Zustand** is a small, fast, and scalable state management tool that provides a minimal, hooks-based API without the need for boilerplate like providers or complex setups.
-- vi: **Redux** là một thư viện quản lý trạng thái hoàn thiện, giàu tính năng với luồng dữ liệu một chiều nghiêm ngặt và hệ sinh thái lớn. **Zustand** là một công cụ quản lý trạng thái nhỏ, nhanh và có thể mở rộng, cung cấp API dựa trên hook tối giản mà không cần các mã lặp (boilerplate) như provider hay thiết lập phức tạp.
-
-**Why choose Zustand over Redux?**:
-- en: Zustand is much simpler to learn and implement. It requires zero boilerplate, performs optimally (by allowing fine-grained selectors), and feels more like "native React." It is ideal for small to medium projects where Redux's strictness is overkill.
-- vi: Zustand dễ học và triển khai hơn nhiều. Nó không yêu cầu mã lặp, đạt hiệu suất tối ưu (bằng cách cho phép các selector chi tiết) và mang lại cảm giác giống như "React thuần túy". Nó lý tưởng cho các dự án quy mô vừa và nhỏ, nơi sự khắt khe của Redux là không cần thiết.
-
-**How do they differ in structure?**:
-- en: Redux requires a central **Store**, **Actions**, and **Reducers** (even with RTK). Zustand uses a simple function to create a **Hook**, which contains both the state and the actions. You don't need a `<Provider />` to wrap your app in Zustand.
-- vi: Redux yêu cầu một **Store** trung tâm, **Actions**, và **Reducers** (ngay cả với RTK). Zustand sử dụng một hàm đơn giản để tạo ra một **Hook**, chứa cả trạng thái và các hành động. Bạn không cần một `<Provider />` để bao bọc ứng dụng trong Zustand.
-
-**When should you prefer Redux?**:
-- en: Redux is better for very large, complex enterprise applications with many internal state transitions, a need for powerful time-travel debugging, or when working in a large team where a strict, standardized architecture is necessary to maintain consistency.
-- vi: Redux tốt hơn cho các ứng dụng doanh nghiệp cực lớn, phức tạp với nhiều chuyển đổi trạng thái nội bộ, cần các tính năng gỡ lỗi time-travel mạnh mẽ, hoặc khi làm việc trong một nhóm lớn nơi một kiến trúc tiêu chuẩn hóa, nghiêm ngặt là cần thiết để duy trì tính nhất quán.
-
-**Which one is "Better"?**:
-- en: There is no "better"—only "better for the job." If you want speed and minimalism, go with Zustand. If you want a robust, battle-tested standard with advanced dev-tools and middleware, go with Redux Toolkit.
-- vi: Không có cái nào "tốt hơn"—chỉ có cái nào "phù hợp hơn cho công việc". Nếu bạn muốn tốc độ và sự tối giản, hãy chọn Zustand. Nếu bạn muốn một tiêu chuẩn mạnh mẽ, đã được thử thách qua thời gian với bộ công cụ phát triển và middleware nâng cao, hãy chọn Redux Toolkit. -->
-
 ### Web API & Security
 
 **What is the HTTP OPTIONS method (Preflight Request)?**:

@@ -29,17 +29,6 @@
     - **Store**: Container trung tâm chuyển trạng thái hiện tại và action cho reducer, sau đó cập nhật.
     - **Subscribers**: Các hàm được store thông báo để kích hoạt render lại giao diện với trạng thái mới.
 
-**Where to use Redux in Next.js?**:
-- en: In Next.js, Redux is used within **Client Components**. To manage it effectively, we wrap our application's layout (or specific routes) in a `StoreProvider`, which is a Client Component that holds the Redux `Provider`. This allows you to use Redux hooks throughout your application while still benefiting from Server Components elsewhere.
-- vi: Trong Next.js, Redux được sử dụng trong các **Client Component**. Để quản lý hiệu quả, chúng ta bao bọc layout của ứng dụng (hoặc các route cụ thể) trong một `StoreProvider` - một Client Component chứa Redux `Provider`. Điều này cho phép bạn sử dụng các hook của Redux trong toàn bộ ứng dụng trong khi vẫn tận dụng được các lợi ích của Server Component ở những nơi khác.
-
-**Who uses Redux Toolkit (RTK)?**:
-- en: RTK is the official recommendation for all Redux developers. It is built for developers who want to avoid the "boilerplate" of plain Redux. It includes utilities like `createSlice` that automatically generate action creators and action types, making it the industry standard for modern Redux development.
-- vi: RTK là khuyến nghị chính thức cho tất cả các nhà phát triển Redux. Nó được xây dựng cho những người muốn tránh các mã lặp (boilerplate) của Redux thuần túy. Nó bao gồm các tiện ích như `createSlice` tự động tạo ra các action creator và action type, biến nó trở thành tiêu chuẩn ngành cho việc phát triển Redux hiện đại.
-
-**When should you create a typed Redux setup?**:
-- en: You should set up types (RootState, AppDispatch) during the initial store configuration. This is crucial in TypeScript projects to ensure that every time you use a hook like `useAppSelector`, you have full autocomplete and type safety, preventing common errors when accessing the global state.
-- vi: Bạn nên thiết lập các kiểu dữ liệu (RootState, AppDispatch) ngay trong quá trình cấu hình store ban đầu. Điều này cực kỳ quan trọng trong các dự án TypeScript để đảm bảo rằng mỗi khi bạn sử dụng một hook như `useAppSelector`, bạn sẽ có đầy đủ tính năng tự động gợi ý và an toàn kiểu, ngăn chặn các lỗi phổ biến khi truy cập trạng thái toàn cục.
 ### Zustand
 
 **What is Zustand?**:
@@ -62,6 +51,35 @@
 - en: Developers who value speed, simplicity, and minimalism. It is ideal for teams who want to manage shared state without the overhead of actions, reducers, and providers, or for projects that don't require Redux's extensive middleware ecosystem.
 - vi: Những nhà phát triển coi trọng tốc độ, sự đơn giản và tính tối giản. Nó lý tưởng cho các nhóm muốn quản lý trạng thái chia sẻ mà không cần các thành phần rườm rà như action, reducer và provider, hoặc cho các dự án không yêu cầu hệ sinh thái middleware sâu rộng của Redux.
 
-**When to use selectors in Zustand?**:
-- en: You should always use selectors (e.g., `useStore(state => state.value)`) instead of destructuring the whole store. This ensures that your component only re-renders when the specific part of the state it is interested in actually changes, maintaining high performance.
-- vi: Bạn nên luôn sử dụng selector (ví dụ: `useStore(state => state.value)`) thay vì destructuring toàn bộ store. Điều này đảm bảo rằng component của bạn chỉ render lại khi phần trạng thái cụ thể mà nó quan tâm thực sự thay đổi, giúp duy trì hiệu suất cao.
+
+### Redux vs Zustand
+
+**What are they?**:
+- en: **Redux** is a mature, feature-rich state management library with a strict unidirectional data flow and a large ecosystem. **Zustand** is a small, fast, and scalable state management tool that provides a minimal, hooks-based API without the need for boilerplate like providers or complex setups.
+- vi: **Redux** là một thư viện quản lý trạng thái hoàn thiện, giàu tính năng với luồng dữ liệu một chiều nghiêm ngặt và hệ sinh thái lớn. **Zustand** là một công cụ quản lý trạng thái nhỏ, nhanh và có thể mở rộng, cung cấp API dựa trên hook tối giản mà không cần các mã lặp (boilerplate) như provider hay thiết lập phức tạp.
+
+**Why choose Zustand over Redux?**:
+- en: Zustand is much simpler to learn and implement. It requires zero boilerplate, performs optimally (by allowing fine-grained selectors), and feels more like "native React." It is ideal for small to medium projects where Redux's strictness is overkill.
+- vi: Zustand dễ học và triển khai hơn nhiều. Nó không yêu cầu mã lặp, đạt hiệu suất tối ưu (bằng cách cho phép các selector chi tiết) và mang lại cảm giác giống như "React thuần túy". Nó lý tưởng cho các dự án quy mô vừa và nhỏ, nơi sự khắt khe của Redux là không cần thiết.
+
+**How do they differ in structure?**:
+- en: Redux requires a central **Store**, **Actions**, and **Reducers** (even with RTK). Zustand uses a simple function to create a **Hook**, which contains both the state and the actions. You don't need a `<Provider />` to wrap your app in Zustand.
+- vi: Redux yêu cầu một **Store** trung tâm, **Actions**, và **Reducers** (ngay cả với RTK). Zustand sử dụng một hàm đơn giản để tạo ra một **Hook**, chứa cả trạng thái và các hành động. Bạn không cần một `<Provider />` để bao bọc ứng dụng trong Zustand.
+
+**When should you prefer Redux?**:
+- en: Redux is better for very large, complex enterprise applications with many internal state transitions, a need for powerful time-travel debugging, or when working in a large team where a strict, standardized architecture is necessary to maintain consistency.
+- vi: Redux tốt hơn cho các ứng dụng doanh nghiệp cực lớn, phức tạp với nhiều chuyển đổi trạng thái nội bộ, cần các tính năng gỡ lỗi time-travel mạnh mẽ, hoặc khi làm việc trong một nhóm lớn nơi một kiến trúc tiêu chuẩn hóa, nghiêm ngặt là cần thiết để duy trì tính nhất quán.
+
+**Which one is "Better"?**:
+- en: There is no "better"—only "better for the job." If you want speed and minimalism, go with Zustand. If you want a robust, battle-tested standard with advanced dev-tools and middleware, go with Redux Toolkit.
+- vi: Không có cái nào "tốt hơn"—chỉ có cái nào "phù hợp hơn cho công việc". Nếu bạn muốn tốc độ và sự tối giản, hãy chọn Zustand. Nếu bạn muốn một tiêu chuẩn mạnh mẽ, đã được thử thách qua thời gian với bộ công cụ phát triển và middleware nâng cao, hãy chọn Redux Toolkit.
+
+### Redux Persist
+
+**Why do we need a "No-op" storage in Next.js?**:
+- en: Next.js runs on both the server and the client. Since `localStorage` only exists in the browser, using it directly on the server causes errors. A "No-op" storage provides empty functions that prevent these errors during Server-Side Rendering (SSR).
+- vi: Next.js chạy trên cả server và client. Vì `localStorage` chỉ tồn tại trên trình duyệt, việc sử dụng nó trực tiếp trên server sẽ gây ra lỗi. Một "No-op" storage cung cấp các hàm rỗng để ngăn chặn các lỗi này trong quá trình Server-Side Rendering (SSR).
+
+**What is the purpose of `serializableCheck` in middleware?**:
+- en: Redux Toolkit expects all actions to be plain objects. `redux-persist` uses special actions (like REHYDRATE) that may contain non-serializable data. We must configure the middleware to ignore these specific actions to avoid console warnings.
+- vi: Redux Toolkit yêu cầu tất cả các action phải là các đối tượng đơn giản. `redux-persist` sử dụng các action đặc biệt (như REHYDRATE) có thể chứa dữ liệu không thể tuần tự hóa. Chúng ta phải cấu hình middleware để bỏ qua các action cụ thể này nhằm tránh các cảnh báo trong console.
